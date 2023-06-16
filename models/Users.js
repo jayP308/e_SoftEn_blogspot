@@ -12,14 +12,14 @@ Users.init (
     {
         id: {
             type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
             allowNull: false,
             primaryKey: true,
-            defaultValue: DataTypes.UUIDV4
         },
         username: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true
+            unique: true,
         },
         email: {
             type: DataTypes.STRING,
@@ -27,14 +27,14 @@ Users.init (
             unique: true,
             validate: {
                 isEmail: true,
-            }
+            },
         },
         password: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
                 len: [6]
-            }
+            },
         }
     },
     {
@@ -42,13 +42,12 @@ Users.init (
             async beforeCreate(newUserData) {
                 newUserData.password = await bcrypt.hash(newUserData.password, 10);
                 return newUserData;
-            }
+            },
         },
         sequelize,
-        timestamps:false,
+        timestamps: false,
         freezeTableName: true,
-        underscored: true,
-        modealName:'users'
+        modelName: 'users'
     }
 );
 
