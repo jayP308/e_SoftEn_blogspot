@@ -1,2 +1,4 @@
 node_modules
-.env/DB_PASSWORD
+.env/
+* DB_PASSWORD
+.gitignore
