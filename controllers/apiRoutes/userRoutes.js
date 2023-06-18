@@ -9,7 +9,11 @@ router.post('/signup', async (req, res) => {
             password: req.body.password
         });
 
-        res.json(userData);
+        req.session.save(() => {
+            req.session.loggedIn = true;
+            res.json(userData);
+        });
+
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -23,7 +27,11 @@ router.post('/reviews', async (req, res) => {
             description: req.body.description,
         });
 
-        res.json(reviewData);
+        req.session.save(() => {
+            req.session.loggedIn = true;
+            res.json(reviewData);
+        });
+
     } catch (err) {
         res.status(500).json(err)
     }
@@ -48,11 +56,25 @@ router.post('/login', async (req, res) => {
             res.status(400).json({ message: 'Incorrect Password. Please Try again!'});
             return;
         }
+        req.session.save(() => {
+            req.session.loggedIn = true;
+            res.status(200).json({ user: userLogin, message: 'Logged In Successfully'});
+        })
 
-        res.status(200).json({ user: userLogin, message: 'Logged In Successfully'});
+        
     } catch (err) {
         res.status(500).json(err);
     }
-})
+});
+
+router.post('/logout', async(req, res) => {
+    if(req.session.loggedIn) {
+        req.session.destroy(() =>{
+            res.status(204).end();
+        });
+    } else {
+        res.status(404).end();
+    }
+});
 
 module.exports = router;
