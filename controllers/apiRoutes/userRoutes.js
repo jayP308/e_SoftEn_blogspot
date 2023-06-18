@@ -29,4 +29,30 @@ router.post('/reviews', async (req, res) => {
     }
 });
 
+router.post('/login', async (req, res) => {
+    try{
+        const userLogin = await Users.findOne({
+            where: {
+                username: req.body.username,
+            },
+        });
+
+        if(!userLogin) {
+            req.status(400).json({ message: 'Incorrect Username. Please Try Again!'})
+            return;
+        }
+
+        const validPassword = await userLogin.checkPassword(req.body.password);
+
+        if (!validPassword) {
+            res.status(400).json({ message: 'Incorrect Password. Please Try again!'});
+            return;
+        }
+
+        res.status(200).json({ user: userLogin, message: 'Logged In Successfully'});
+    } catch (err) {
+        res.status(500).json(err);
+    }
+})
+
 module.exports = router;
