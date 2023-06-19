@@ -1,0 +1,30 @@
+
+<header class="statcard statcard-success p-4 mb-4" id="header-title">
+     <nav>
+        <a class="statcard-desc" href="/" id="web-title">Software Engineer Blogspot</a>
+        <div class="navigation-bar">
+            <form class="form-inline my-2 my-lg-4">
+              {{#if loggedIn}}
+              <div class="dropdown">
+                    <a class="btn btn-outline-info mr-sm-2 dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Welcome {{username}}</a>
+                    <div class="dropdown-menu outline-info mr-sm-2" aria-labelledby="dropdownMenu2">
+                      <p class="dropdown-item" id="welcome-tag">{{loggedIn.username}}</p>
+                      <a class="dropdown-item" href="/" id="home-button">Home</a>
+                       <a class="dropdown-item" href="/reviews"id="my-reviews">My Reviews</a>
+                      <a class="dropdown-item" id="logout">Log Out</a>
+                    </div>
+                  </div>
+                </div>
+              {{else}}
+              <a href="/login" class="btn btn-outline-info mr-sm-2" type="button" id="login-button">Login</a>
+              {{/if}}
+
+              {{#if loggedIn}}
+              
+              {{else}}
+              <a href="/signup" class="btn btn-outline-info mr-sm-2" type="button" id="signup-button">Sign Up</a>
+              {{/if}}
+            </form>
+        </div>
+    </nav>
+  </header>
