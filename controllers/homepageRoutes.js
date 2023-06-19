@@ -22,4 +22,20 @@ router.get('/signup', (req, res) => {
     res.render('signup');
 });
 
+router.get('/signup/:userId', async (req, res) => {
+  try{ 
+      const { userId } = req.params;
+
+      const userData = await Reviews.findByPk(userId);
+
+      const user = userData.get({ plain: true });
+
+      res.render('user-info', {
+          user
+      });
+  } catch (error) {
+      res.status(500).json({error});
+  }
+});
+
 module.exports = router;
