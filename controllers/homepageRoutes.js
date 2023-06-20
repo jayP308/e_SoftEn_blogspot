@@ -43,15 +43,16 @@ router.get('/login', async (req, res) => {
         res.status(500).json({ error });
       }
     } else {
-      res.render('profile');
+      res.render('/login');
     }
   });
   
   
 router.get('/signup', async (req, res) => {
   if (req.session.loggedIn) {
-    res.redirect('/');
-    return;
+    res.render('homepage', {
+      loggedIn: req.session.loggedIn,
+     });
   }
   res.render('signup');
 });

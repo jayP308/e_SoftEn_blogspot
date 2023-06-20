@@ -16,6 +16,14 @@ Users.init (
             allowNull: false,
             primaryKey: true,
         },
+        firstName: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        lastName: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
         username: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -35,7 +43,11 @@ Users.init (
             validate: {
                 len: [6]
             },
-        }
+        },
+        profileImage: {
+            type: DataTypes.STRING, // Assuming you are storing the image path as a string
+            allowNull: true
+          },
     },
     {
         hooks: {

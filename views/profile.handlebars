@@ -7,28 +7,48 @@
           <a class="btn btn-outline-info mr-sm-2 logout-button" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Logout</a>
         </div>
         <div class="dropdown">
-          <a class="btn btn-outline-info mr-sm-2 logout-button" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Reviews</a>
+          <a class="btn btn-outline-info mr-sm-2 logout-button" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Explore</a>
         </div>
          <div class="dropdown">
           <a href="/profile" class="btn btn-outline-info mr-sm-2 logout-button" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Profile</a>
         </div>
         <div class="dropdown">
-          <a href="/home" class="btn btn-outline-info mr-sm-2 logout-button" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Home</a>
+          <a href="/home" class="btn btn-outline-info mr-sm-2 logout-button" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Feed</a>
         </div>
     </form>
     </nav>
 </header>
-    <div>
-      <ul class="userList">
-        <li class="card" id="card-tile">
-            <a id="game-title" aria-disabled="true" disabled>Welcome, {{user.username}}</a>
-            <p class="card" id="card-tile1">
-            {{#if user.username}}
-                <p id="review-tile">Username: {{user.username}}</p>
-                <p id="review-tile">Email: {{user.email}}</p>
-                <p id="review-tile">Password: {{user.password}}</p>
-            {{/if}}
-            </p>   
-        </li>
-    </ul>
+   <div>
+  <ul class="userList">
+    <div id="game-title">
+        <a id="game-title1" aria-disabled="true" disabled>{{user.firstName}} {{user.lastName}}</a>
+    </div>
+    <div class="form-group1">
+    <form id="profileImageForm" enctype="multipart/form-data">
+        <input type="file" name="profileImage" id="profileImageInput" style="display: none;" onchange="uploadProfileImage(event)" />
+        <div class="profile-image-container">
+            {{#if user.profileImage}}
+        <img src="/images/{{user.profileImage}}" id="blank-profile" onclick="chooseProfileImage()" />
+            {{else}}
+        <img src="/images/blank-profile.png" id="blank-profile" onclick="chooseProfileImage()" />
+        {{/if}}
+        <div class="overlay-message">
+        Upload New Photo
+        </div>
+  </div>
+</form>
+      <li id="card-tile">
+        <p id="card-tile1">
+          {{#if user.username}}
+            <p id="review-title1">Username:</p>
+            <p id="review-title">{{user.username}}</p>
+            <p id="review-title1">Email:</p>
+            <p id="review-title">{{user.email}}</p>
+          {{/if}}
+        </p>   
+      </li>
+    </div>
+  </ul>
 </div>
+
+<script type="text/javascript" src="./js/profile.js"></script>
