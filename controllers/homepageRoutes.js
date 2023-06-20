@@ -1,4 +1,6 @@
 const router = require('express').Router();
+const { Info } = require('luxon');
+const { Users } = require('../models');
 
 router.get('/', async (req, res) => {
    res.render('homepage', {
@@ -6,36 +8,52 @@ router.get('/', async (req, res) => {
    });
 });
 
-router.get('/login', (req, res) => {
+router.get('/home', async (req, res) => {
+  res.render('homepage', {
+   loggedIn: req.session.loggedIn,
+  });
+});
+
+router.get('/login', async (req, res) => {
     if (req.session.loggedIn) {
-      res.redirect('/');
-      return;
+      res.render('homepage', {
+        loggedIn: req.session.loggedIn,
+       });
     }
     res.render('login');
   });
 
-router.get('/signup', (req, res) => {
+  router.get('/profile', async (req, res) => {
     if (req.session.loggedIn) {
-      res.redirect('/');
-      return;
+      try {
+        const username = req.session.username; // Assuming you have the logged-in user's username stored in req.session.username
+        const userSignupData = await Users.findOne({ where: { username } }); // Find a single user by the username
+        
+        if (!userSignupData) {
+          return res.status(404).json({ message: 'User not found' });
+        }
+  
+        const user = userSignupData.get({ plain: true });
+  
+        res.render('profile', {
+          user,
+          loggedIn: req.session.loggedIn || null
+        });
+      } catch (error) {
+        res.status(500).json({ error });
+      }
+    } else {
+      res.render('profile');
     }
-    res.render('signup');
-});
-
-router.get('/signup/:userId', async (req, res) => {
-  try{ 
-      const { userId } = req.params;
-
-      const userData = await Reviews.findByPk(userId);
-
-      const user = userData.get({ plain: true });
-
-      res.render('user-info', {
-          user
-      });
-  } catch (error) {
-      res.status(500).json({error});
+  });
+  
+  
+router.get('/signup', async (req, res) => {
+  if (req.session.loggedIn) {
+    res.redirect('/');
+    return;
   }
+  res.render('signup');
 });
 
 module.exports = router;

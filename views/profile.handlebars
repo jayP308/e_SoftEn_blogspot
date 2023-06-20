@@ -2,8 +2,7 @@
   <nav>
     <a class="statcard-desc" href="/" id="web-title">Software Engineer Blogspot</a>
     <div class="navigation-bar">
-      <form class="form-inline my-2 my-lg-4">
-        {{#if loggedIn}}
+    <form class="form-inline my-2 my-lg-4"></form>
         <div class="dropdown">
           <a class="btn btn-outline-info mr-sm-2 logout-button" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Logout</a>
         </div>
@@ -16,17 +15,20 @@
         <div class="dropdown">
           <a href="/home" class="btn btn-outline-info mr-sm-2 logout-button" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Home</a>
         </div>
-        {{else}}
-        <a href="/login" class="btn btn-outline-info mr-sm-2" type="button" id="login-button">Login</a>
-        {{/if}}
-
-        {{#if loggedIn}}
-
-        {{else}}
-        <a href="/signup" class="btn btn-outline-info mr-sm-2" type="button" id="signup-button">Sign Up</a>
-        {{/if}}
-      </form>
-    </div>
-  </nav>
+    </form>
+    </nav>
 </header>
-
+    <div>
+      <ul class="userList">
+        <li class="card" id="card-tile">
+            <a id="game-title" aria-disabled="true" disabled>Welcome, {{user.username}}</a>
+            <p class="card" id="card-tile1">
+            {{#if user.username}}
+                <p id="review-tile">Username: {{user.username}}</p>
+                <p id="review-tile">Email: {{user.email}}</p>
+                <p id="review-tile">Password: {{user.password}}</p>
+            {{/if}}
+            </p>   
+        </li>
+    </ul>
+</div>

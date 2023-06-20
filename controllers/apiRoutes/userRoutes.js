@@ -38,34 +38,30 @@ router.post('/reviews', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-    try{
-        const userLogin = await Users.findOne({
-            where: {
-                username: req.body.username,
-            },
-        });
-
-        if(!userLogin) {
-            req.status(400).json({ message: 'Incorrect Username. Please Try Again!'})
-            return;
-        }
-
-        const validPassword = await userLogin.checkPassword(req.body.password);
-
-        if (!validPassword) {
-            res.status(400).json({ message: 'Incorrect Password. Please Try again!'});
-            return;
-        }
-        req.session.save(() => {
-            req.session.loggedIn = true;
-            res.status(200).json({ user: userLogin, message: 'Logged In Successfully'});
-        })
-
-        
-    } catch (err) {
-        res.status(500).json(err);
+    try {
+      const { username, password } = req.body;
+  
+      const user = await Users.findOne({ where: { username } });
+  
+      if (!user) {
+        return res.status(400).json({ message: 'Incorrect username. Please try again.' });
+      }
+  
+      const isValidPassword = await user.checkPassword(password);
+  
+      if (!isValidPassword) {
+        return res.status(400).json({ message: 'Incorrect password. Please try again.' });
+      }
+  
+      req.session.loggedIn = true;
+      req.session.username = username;
+  
+      res.redirect('/profile'); // Redirect to the profile route after successful login
+    } catch (error) {
+      res.status(500).json({ error });
     }
-});
+  });
+  
 
 router.post('/logout', async(req, res) => {
     if(req.session.loggedIn) {
