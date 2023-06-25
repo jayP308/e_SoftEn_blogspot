@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { Users, Reviews } = require('../../models');
 const multer = require('multer');
 const path = require('path');
 const storage = multer.diskStorage({
@@ -11,7 +12,6 @@ const storage = multer.diskStorage({
   }
 });
 const upload = multer({ storage: storage });
-const { Users, Reviews } = require('../../models');
 
 router.post('/signup', upload.single('profileImage'), async (req, res) => {
   try {
@@ -26,30 +26,13 @@ router.post('/signup', upload.single('profileImage'), async (req, res) => {
 
     req.session.loggedIn = true;
     req.session.username = req.body.username;
+    req.session.user =userData;
 
     res.redirect('/profile');
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
   }
-});
-
-
-router.post('/reviews', async (req, res) => {
-    try {
-        const reviewData = await Reviews.create({
-            topic: req.body.topic,
-            description: req.body.description,
-        });
-
-        req.session.save(() => {
-            req.session.loggedIn = true;
-            res.json(reviewData);
-        });
-
-    } catch (err) {
-        res.status(500).json(err)
-    }
 });
 
 router.post('/login', async (req, res) => {
@@ -70,6 +53,7 @@ router.post('/login', async (req, res) => {
   
       req.session.loggedIn = true;
       req.session.username = username;
+      req.session.user = user;
 
       res.redirect('/profile'); // Redirect to the profile route after successful login
     } catch (error) {
@@ -103,6 +87,29 @@ router.post('/updateProfileImage', upload.single('profileImage'), async (req, re
   } catch (error) {
     console.error('Error updating profile image:', error);
     res.sendStatus(500);
+  }
+});
+
+router.post('/reviews', async (req, res) => {
+  try {
+    const { topic, description } = req.body;
+    const userId = req.session.user.id;
+
+    console.log(userId);
+
+    const reviewData = await Reviews.create({
+      topic,
+      description,
+      userId,
+    });
+
+    console.log(reviewData);
+    req.session.loggedIn = true;
+
+    res.redirect('/profile');
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err);
   }
 });
 

@@ -20,6 +20,9 @@ const sess = {
         secure: false,
         sameSite: 'strict',
     },
+
+    user: null,
+    
     resave: false,
     saveUninitialized: true,
 

@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const { Info } = require('luxon');
-const { Users } = require('../models');
+const { Users, Reviews } = require('../models');
+const _ = require('lodash');
 
 router.get('/', async (req, res) => {
    res.render('homepage', {
@@ -8,53 +8,88 @@ router.get('/', async (req, res) => {
    });
 });
 
-router.get('/home', async (req, res) => {
-  res.render('homepage', {
-   loggedIn: req.session.loggedIn,
-  });
+router.get('/signup', async (req, res) => {
+  if (req.session.loggedIn) {
+    return res.redirect('/');
+  }
+  res.render('signup');
 });
+
 
 router.get('/login', async (req, res) => {
     if (req.session.loggedIn) {
-      res.render('homepage', {
-        loggedIn: req.session.loggedIn,
-       });
+      return res.redirect('/');
     }
     res.render('login');
   });
 
-  router.get('/profile', async (req, res) => {
-    if (req.session.loggedIn) {
-      try {
-        const username = req.session.username; // Assuming you have the logged-in user's username stored in req.session.username
-        const userSignupData = await Users.findOne({ where: { username } }); // Find a single user by the username
-        
+router.get('/profile', async (req, res) => {
+    try {
+      if (req.session.loggedIn) {
+        const userId = req.session.user.id;
+  
+        const userSignupData = await Users.findOne({ where: { username: req.session.username } });
         if (!userSignupData) {
           return res.status(404).json({ message: 'User not found' });
         }
-  
         const user = userSignupData.get({ plain: true });
   
-        res.render('profile', {
-          user,
-          loggedIn: req.session.loggedIn || null
+        const userReviews = await Reviews.findAll({ where: { userId } });
+        const userReviewData = userReviews.map(review => {
+          const reviewData = review.get({ plain: true });
+          const createdAt = new Date(review.createdAt);
+          reviewData.createdAt = createdAt.toLocaleDateString(undefined, {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          });
+          return reviewData;
         });
-      } catch (error) {
-        res.status(500).json({ error });
+        
+        return res.render('profile', {
+          user,
+          loggedIn: req.session.loggedIn,
+          userReviewData,
+        });
+      } else {
+        return res.redirect('/login');
       }
-    } else {
-      res.render('/login');
+    } catch (error) {
+      return res.status(500).json({ error });
     }
   });
+
+router.get('/feed', async (req, res) => {
+    try {
+      if (req.session.loggedIn) {
+        const displayReviews = await Reviews.findAll({
+          include: [{ model: Users, attributes: ['username', 'profileImage'] }] // Include the Users model to retrieve the associated user's username
+        });
   
-  
-router.get('/signup', async (req, res) => {
-  if (req.session.loggedIn) {
-    res.render('homepage', {
-      loggedIn: req.session.loggedIn,
-     });
-  }
-  res.render('signup');
-});
+        const displayReviewData = displayReviews.map(review => {
+          const reviewData = review.get({ plain: true });
+          const createdAt = new Date(review.createdAt);
+          reviewData.createdAt = createdAt.toLocaleDateString(undefined, {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          });
+          return reviewData;
+        });
+        
+        const sortedReviewData = displayReviewData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        
+
+          res.render('feed', {
+          loggedIn: req.session.loggedIn,
+          displayReviewData: sortedReviewData,
+        });
+      } else {
+           res.redirect('/login');
+      }
+    } catch (err) {
+        res.status(500).json({ err });
+    }
+  });  
 
 module.exports = router;
