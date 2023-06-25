@@ -32,31 +32,42 @@ function chooseProfileImage() {
     }
   }
 
-const reviewForm = async (event) => {
+  const reviewForm = async (event) => {
     event.preventDefault();
-    
+  
     const topic = document.querySelector('#review-topic').value.trim();
     const description = document.querySelector('#review-description').value.trim();
-    
-    if(topic && description) {
+    const postImage = document.querySelector('#postImage').files[0]; // Use 'files' instead of 'file'
+  
+    if (topic && description) {
+      const formData = new FormData(); // Create a new FormData object
+      formData.append('topic', topic); // Append form data
+      formData.append('description', description);
+      formData.append('postImage', postImage);
+  
+      try {
         const response = await fetch('/api/users/reviews', {
-            method: 'POST',
-            body: JSON.stringify({ topic, description }),
-            headers: { 'Content-Type': 'application/json'},
+          method: 'POST',
+          body: formData, // Pass the FormData object as the body
         });
-
-        if(response.ok) {
-            console.log('review created!');
-            document.getElementById('validation-message').textContent = 'Post Created Successfully!';
-            document.location.replace('/profile');
+  
+        if (response.ok) {
+          console.log('Review created!');
+          document.getElementById('validation-message').textContent = 'Post Created Successfully!';
+          document.location.replace('/feed');
         } else {
           // Handle error cases
           const errorMessage = await response.text();
           console.log(errorMessage);
           // Display an appropriate error message to the user
         }
+      } catch (err) {
+        console.log(err);
+        // Handle any network or server errors
+      }
     }
-};
+  };
+  
 
 // event listener for when the create post button is click, the section will be displayed
 createPost.addEventListener('click', () => {
@@ -81,6 +92,43 @@ closePost.addEventListener('click', () => {
       alert('Failed to log out.');
     }
   };
+
+  function previewImage(event) {
+    const input = event.target;
+    const preview = document.getElementById('imagePreview');
   
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+  
+      reader.onload = function(e) {
+        preview.src = e.target.result;
+        preview.style.display = 'block'; // Show the preview image
+      };
+  
+      reader.readAsDataURL(input.files[0]);
+    } else {
+      preview.src = '#';
+      preview.style.display = 'none'; // Hide the preview image
+    }
+  }
+
+  const deleteReview = async (event) => {
+    event.preventDefault();
+    const reviewId = event.target.dataset.reviewId;
+  
+    const response = await fetch(`/reviews/${reviewId}`, {
+      method: 'DELETE'
+    });
+  
+    if (response.ok) {
+      document.location.replace('/profile');
+    }
+  };
+
+const deleteForms = document.querySelectorAll('.delete-review');
+deleteForms.forEach(form => {
+  form.addEventListener('submit', deleteReview);
+});
+
   document.querySelector('.dropdown1').addEventListener('click', logout);
   document.querySelector('.review-form').addEventListener('submit', reviewForm);

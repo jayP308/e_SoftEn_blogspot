@@ -59,6 +59,28 @@ router.get('/profile', async (req, res) => {
     }
   });
 
+router.delete('/reviews/:id', async (req, res) => {
+    try {
+      const reviewId = req.params.id;
+      const userId = req.session.user.id;
+  
+      // Check if the review belongs to the current user
+      const review = await Reviews.findOne({ where: { id: reviewId, userId } });
+      if (!review) {
+        return res.status(404).json({ message: 'Review not found' });
+      }
+  
+      // Delete the review
+      await Reviews.destroy({ where: { id: reviewId } });
+  
+      res.sendStatus(204);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+    }
+});
+  
+
 router.get('/feed', async (req, res) => {
     try {
       if (req.session.loggedIn) {

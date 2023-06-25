@@ -20,6 +20,10 @@ Reviews.init(
             type: DataTypes.TEXT,
             allowNull: false,
         },
+        postImage: {
+            type: DataTypes.STRING, // Assuming you are storing the image path as a string
+            allowNull: true
+          },
     },
     {
         sequelize,

@@ -13,7 +13,7 @@ const loginForm = async (event) => {
 
         if(response.ok) {
             document.getElementById('validation-message').textContent = 'Logged In Successfully!';
-            document.location.replace('/profile');
+            document.location.replace('/feed');
         } else {
             document.getElementById('validation-message').textContent = 'Incorrect Username or Password! Please Try Again!';
             return;

@@ -166,7 +166,8 @@
 #password-signup, 
 #firstName-signup, 
 #lastName-signup, 
-#profileImage, 
+#profileImage,
+#postImage, 
 #review-topic,
 #review-description
  {
@@ -440,3 +441,39 @@
   #intro-section {
     font-size: 15px;
   }
+
+  #review-image {
+    display: block;
+    margin: 0 auto;
+    width: 65%;
+    height: 500px; /* Set horizontal margins to auto to center the image */
+    max-width: 85%; /* Set the maximum width */
+    max-height: 650px; /* Set the maximum height */
+  }
+
+  hr {
+    height: 5px;
+    background-color: rgb(0, 92, 31);
+  }
+
+#imagePreview {
+    display: none;
+    margin: 0 auto;
+    margin-top: 15px;
+    max-width: 100%;  
+    max-height: 200px
+}
+
+.delete-button {
+    display: block;
+    margin: auto;
+    margin-left: 20px;
+    margin-top: 20px;
+    font-size: 20px;
+    color: rgb(24, 160, 65);
+    border-style: double;
+    background-color:transparent;
+    border-color: rgb(24, 160, 65);
+    border-radius: 4px;
+    padding: 5px;
+}

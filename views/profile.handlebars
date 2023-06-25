@@ -57,10 +57,16 @@
         <a id="game-title1" aria-disabled="true" disabled>
           <h2 class="page-title">Create A Post</h2>
           <hr>
-          <form class="form review-form">
+          <form class="form review-form" enctype="multipart/form-data">
             <div class="form-group2">
               <p id="review-topic1">Topic</p>
               <input type="text" id="review-topic" placeholder="Title"/>
+            </div>
+
+            <div class="form-group">
+              <p id="password-signup1">Import Photo</p>
+                <input type="file" id="postImage" name="postImage" onchange="previewImage(event)">
+                <img id="imagePreview" src="#" alt="Image Preview" style="display: none; max-width: 100%; max-height: 200px;">
             </div>
             
             <div class="form-group2">
@@ -83,12 +89,19 @@
 {{#if userReviewData.length}}
   {{#each userReviewData}}
     <div class="card" id="game-title">
+      <form class="delete-review" data-review-id="{{id}}">
+          <button type="submit" class="delete-button">Delete Post</button>
+        </form>
       <img src="/images/{{../user.profileImage}}" id="blank-profile3" />
       <p id="review-title5">{{../user.username}}</p>
       <div class="card" id="game-title5">
-        <h3 id="topic-display">{{ topic }}<span style="float: right;">{{createdAt}}</span></h3>
+        <h3 id="topic-display">{{ topic }}<span style="float: right; margin-right: 10px;">{{createdAt}}</span></h3>
         <hr>
+         <img src="/reviewImages/{{postImage}}" id="review-image" />
+        <hr>
+         
         <h3 id="description-display">{{ description }}</h3>
+       
       </div>
     </div>
   {{/each}}

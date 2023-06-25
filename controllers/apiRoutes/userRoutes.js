@@ -13,6 +13,27 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+const storage1 = multer.diskStorage({
+  destination: './public/reviewImages', // Specify the destination directory for storing uploaded images
+  filename: function (req, file, cb) {
+    // Generate a unique file name for the uploaded image
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const fileExtension = path.extname(file.originalname);
+    cb(null, file.fieldname + '-' + uniqueSuffix + fileExtension);
+  }
+});
+
+const fileFilter = function (req, file, cb) {
+  const allowedTypes = ['image/jpeg', 'image/png', 'video/mp4'];
+
+  if (allowedTypes.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(new Error('Invalid file type. Only JPEG, PNG, and MP4 files are allowed.'));
+  }
+};
+const upload1 = multer({ storage: storage1, fileFilter: fileFilter });
+
 router.post('/signup', upload.single('profileImage'), async (req, res) => {
   try {
     const userData = await Users.create({
@@ -26,7 +47,7 @@ router.post('/signup', upload.single('profileImage'), async (req, res) => {
 
     req.session.loggedIn = true;
     req.session.username = req.body.username;
-    req.session.user =userData;
+    req.session.user = userData;
 
     res.redirect('/profile');
   } catch (err) {
@@ -90,20 +111,19 @@ router.post('/updateProfileImage', upload.single('profileImage'), async (req, re
   }
 });
 
-router.post('/reviews', async (req, res) => {
+router.post('/reviews', upload1.single('postImage'), async (req, res) => {
   try {
     const { topic, description } = req.body;
     const userId = req.session.user.id;
-
-    console.log(userId);
+    const postImage = req.file; // Get the uploaded image data
 
     const reviewData = await Reviews.create({
       topic,
       description,
       userId,
+      postImage: postImage ? postImage.filename : null, // Store the filename in the 'postImage' column, or null if no image is uploaded
     });
 
-    console.log(reviewData);
     req.session.loggedIn = true;
 
     res.redirect('/profile');
@@ -112,5 +132,6 @@ router.post('/reviews', async (req, res) => {
     res.status(400).json(err);
   }
 });
+
 
 module.exports = router;

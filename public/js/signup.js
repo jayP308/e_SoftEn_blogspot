@@ -23,7 +23,7 @@ const signupForm = async (event) => {
 
     if (response.ok) {
       document.getElementById('validation-message').textContent = 'Signed Up Successfully!';
-      document.location.replace('/profile');
+      document.location.replace('/feed');
     }
   }
 };
