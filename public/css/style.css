@@ -4,7 +4,7 @@
     padding: 0;
 }
 
-#header-title {
+#header-title{
     display: block;
     font-family: monospace;
     width: 100%;
@@ -13,8 +13,10 @@
     background-color: transparent;
     background-repeat: none;
     background-size: cover;
+    background-attachment: fixed;
     border-style: double;
     border-color: rgb(24, 160, 65);
+    
 }
 
 .homepage {
@@ -22,6 +24,7 @@
     background-color: transparent;
     background-repeat: none;
     background-size: cover;
+    background-attachment: fixed;
 }
 
 #web-title {
@@ -72,6 +75,7 @@
     background-color: transparent;
     background-repeat: none;
     background-size: cover;
+    background-attachment: fixed;
 }
 
 #review-style {
@@ -88,6 +92,7 @@
     background-color: transparent;
     background-repeat: none;
     background-size: cover;
+    background-attachment: fixed;
     border-color: rgb(24, 160, 65);
 }
 
@@ -105,6 +110,7 @@
     background-color: transparent;
     background-repeat: none;
     background-size: cover;
+    background-attachment: fixed;
 }
 
 .login-card, .login-card1, .review-card {
@@ -125,6 +131,34 @@
 
 .form-group {
     padding-bottom: 10px;
+}
+
+.delete-review1 {
+    display: inline-flex;
+    justify-content: left;
+    align-items: left;
+    flex-direction: row;
+}
+
+.form-group3 {
+    display: none;
+}
+
+.form-group4 {
+    display: block;
+}
+
+.comment-section {
+    font-size: 25px;
+    padding-left: 50px;
+    width: 75%;
+    border: none;
+    color: rgb(38, 23, 170);
+}
+
+.form-group3 input:focus {
+    outline: none; /* Remove the default focus outline */
+    border: none; /* Remove the border when the input is in focus */
 }
 
 
@@ -309,6 +343,7 @@
     background-color: transparent;
     background-repeat: none;
     background-size: cover;
+    background-attachment: fixed;
     font-family: monospace;
 }
 
@@ -452,7 +487,7 @@
   }
 
   hr {
-    height: 5px;
+    height: 3px;
     background-color: rgb(0, 92, 31);
   }
 
@@ -477,3 +512,51 @@
     border-radius: 4px;
     padding: 5px;
 }
+
+.delete-button1, .delete-button2 {
+    display: block;
+    margin: auto;
+    margin-left: 15px;
+    margin-bottom: 15px;
+    font-size: 15px;
+    color: rgb(24, 160, 65);
+    border-style: double;
+    background-color:transparent;
+    border-color: rgb(24, 160, 65);
+    border-radius: 4px;
+    padding: 5px;
+}
+
+.delete-button1:hover,
+.delete-button2:hover
+{
+    display: block;
+    margin: auto;
+    margin-left: 15px;
+    margin-bottom: 15px;
+    font-size: 15px;
+    color: rgb(24, 160, 65);
+    border-style: double;
+    background-image: url('../images/name-tags.jpg');
+    background-color: transparent;
+    background-repeat: none;
+    background-size: cover;
+    border-color: rgb(24, 160, 65);
+    border-radius: 4px;
+    padding: 5px;
+}
+
+.delete-button:hover {
+    display: block;
+    margin: auto;
+    margin-left: 20px;
+    margin-top: 20px;
+    font-size: 20px;
+    color: rgb(255, 255, 255);
+    border-style: double;
+    background-color:rgb(255, 0, 0);
+    border-color: rgb(255, 0, 0);
+    border-radius: 4px;
+    padding: 5px;
+}
+

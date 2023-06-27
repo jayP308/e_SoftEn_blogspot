@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Users, Reviews } = require('../models');
+const { Users, Reviews, Comments } = require('../models');
 const _ = require('lodash');
 
 router.get('/', async (req, res) => {
@@ -100,17 +100,50 @@ router.get('/feed', async (req, res) => {
         });
         
         const sortedReviewData = displayReviewData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        
-
-          res.render('feed', {
+  
+          return res.render('feed', {
           loggedIn: req.session.loggedIn,
           displayReviewData: sortedReviewData,
         });
       } else {
-           res.redirect('/login');
+           return res.redirect('/login');
       }
     } catch (err) {
         res.status(500).json({ err });
+    }
+  });
+
+  router.get('/comments/:id', async (req, res) => {
+    try {
+      if (req.session.loggedIn) {
+        const reviewId = req.params.id;
+        
+        const displayComments = await Comments.findAll({
+          where: { reviewId },
+          include: [
+            {
+              model: Reviews,
+              attributes: ['topic', 'description']
+            },
+            {
+              model: Users,
+              attributes: ['username', 'profileImage']
+            }
+          ]
+        });
+  
+        const displayCommentsData = displayComments.map((comment) => comment.get({ plain: true }));
+        console.log(displayCommentsData);
+  
+        return res.render('comments', {
+          loggedIn: req.session.loggedIn,
+          displayCommentsData,
+        });
+      } else {
+        return res.redirect('/login');
+      }
+    } catch (err) {
+      res.status(500).json({ err });
     }
   });  
 

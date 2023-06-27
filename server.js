@@ -22,7 +22,7 @@ const sess = {
     },
 
     user: null,
-    
+    review: null,
     resave: false,
     saveUninitialized: true,
 

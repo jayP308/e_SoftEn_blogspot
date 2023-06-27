@@ -1,6 +1,6 @@
 <header class="statcard statcard-success p-4 mb-4" id="header-title">
   <nav>
-    <a class="statcard-desc" href="/" id="web-title">Software Engineer Blogspot</a>
+    <a class="statcard-desc" id="web-title">Software Engineer Blogspot</a>
     </nav>
 </header>
    
@@ -91,7 +91,7 @@
     <div class="card" id="game-title">
       <form class="delete-review" data-review-id="{{id}}">
           <button type="submit" class="delete-button">Delete Post</button>
-        </form>
+      </form>
       <img src="/images/{{../user.profileImage}}" id="blank-profile3" />
       <p id="review-title5">{{../user.username}}</p>
       <div class="card" id="game-title5">
@@ -99,9 +99,7 @@
         <hr>
          <img src="/reviewImages/{{postImage}}" id="review-image" />
         <hr>
-         
         <h3 id="description-display">{{ description }}</h3>
-       
       </div>
     </div>
   {{/each}}

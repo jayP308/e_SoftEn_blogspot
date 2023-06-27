@@ -1,0 +1,33 @@
+<header class="statcard statcard-success p-4 mb-4" id="header-title">
+  <nav>
+    <a class="statcard-desc" id="web-title">Software Engineer Blogspot</a>
+    </nav>
+</header>
+
+ <div id="game-title3">
+        <div id="game-title1" aria-disabled="true" disabled>
+        <a class="statcard-desc" href="/" id="web-title">Comments</a>
+          <div class="dropdown2">
+            <a class="btn btn-outline-info mr-sm-2 logout-button1" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Logout</a>
+          </div>
+          <div class="dropdown2">
+            <a href="/profile" class="btn btn-outline-info mr-sm-2 logout-button1" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Profile</a>
+          </div>
+          <div class="dropdown2">
+            <a href="/feed" class="btn btn-outline-info mr-sm-2 logout-button1" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Feed</a>
+          </div>
+    </div>
+</div>
+
+{{#if ./displayCommentsData.length}}
+  {{#each ./displayCommentsData}}
+    <div class="card" id="game-title">
+      <img src="/images/{{user.profileImage}}" id="blank-profile3" />
+      <p id="review-title5">{{user.username}}</p>
+      <p>{{comment}}</p>
+    </div>
+{{/each}}
+
+{{else}}
+<p>No Comments Yet</p>
+{{/if}}

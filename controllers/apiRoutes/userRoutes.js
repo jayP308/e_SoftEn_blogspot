@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Users, Reviews } = require('../../models');
+const { Users, Reviews, Comments } = require('../../models');
 const multer = require('multer');
 const path = require('path');
 const storage = multer.diskStorage({
@@ -132,6 +132,38 @@ router.post('/reviews', upload1.single('postImage'), async (req, res) => {
     res.status(400).json(err);
   }
 });
+
+router.post('/comments', async (req, res) => {
+  try {
+    if (req.session.loggedIn) {
+      console.log('Request body:', req.body);
+      console.log('Session object:', req.session);
+
+      const { comment, reviewId } = req.body;
+      const userId = req.session.user.id;
+
+      console.log('Comment:', comment);
+      console.log('User ID:', userId);
+      console.log('Review ID:', reviewId);
+
+      const commentReview = await Comments.create({
+        comment,
+        userId,
+        reviewId,
+      });
+
+      req.session.loggedIn = true;
+
+      res.redirect('/profile');
+    } else {
+      res.redirect('/login');
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err);
+  }
+});
+
 
 
 module.exports = router;

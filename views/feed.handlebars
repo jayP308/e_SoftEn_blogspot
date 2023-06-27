@@ -21,25 +21,36 @@
     </div>
 
     <!-- Sections to display reviews -->
-    {{#if displayReviewData.length}}
+{{#if displayReviewData.length}}
   {{#each displayReviewData}}
     <div class="card" id="game-title">
-        <img src="/images/{{user.profileImage}}" id="blank-profile3" />
-        <p id="review-title5">{{user.username}}</p>
+      <img src="/images/{{user.profileImage}}" id="blank-profile3" />
+      <p id="review-title5">{{user.username}}</p>
       <div class="card" id="game-title5">
         <h3 id="topic-display">{{topic}}<span style="float: right; margin-right: 10px;">{{createdAt}}</span></h3>
         <hr>
         <img src="/reviewImages/{{this.postImage}}" id="review-image"/>
         <hr>
+        <form class="delete-review1" >
+          <a type="submit" class="delete-button1">Write a Comment</a>
+          <a href="/comments/{{this.id}}" type="button" class="delete-button2">View Comments</a>
+        </form>
         <h3 id="description-display">{{description}}</h3>
+        <form class="form-group3">
+          <input type="text" class="comment-section" placeholder="Write a Comment....."/>
+          <input type="hidden" name="reviewId" value="{{this.id}}">
+          <button class="btn btn-primary" type="submit" id="submit-button3">Post</button>
+        </form>
       </div>
     </div>
   {{/each}}
   <a href="#top" class="go-top-button">Go Back to the Top</a>
 {{else}}
   <div class="card" id="game-title">
-    <p>Start A Post!</p>
+    <a href="/profile">Start A Post!</a>
   </div>
 {{/if}}
+
+
 
 <script type="text/javascript" src="./js/feed.js"></script>
