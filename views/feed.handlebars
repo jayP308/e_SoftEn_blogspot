@@ -25,7 +25,7 @@
   {{#each displayReviewData}}
     <div class="card" id="game-title">
       <img src="/images/{{user.profileImage}}" id="blank-profile3" />
-      <p id="review-title5">{{user.username}}</p>
+      <a style="font-size: 25px;">{{user.username}}</a>
       <div class="card" id="game-title5">
         <h3 id="topic-display">{{topic}}<span style="float: right; margin-right: 10px;">{{createdAt}}</span></h3>
         <hr>
@@ -35,7 +35,7 @@
           <a type="submit" class="delete-button1">Write a Comment</a>
           <a href="/comments/{{this.id}}" type="button" class="delete-button2">View Comments</a>
         </form>
-        <h3 id="description-display">{{description}}</h3>
+        <h3 id="description-display"><span style="font-style: italic; margin-right: 15px; color:rgb(6, 9, 109); font-weight: bold; ">{{user.username}}:</span>{{description}}</h3>
         <form class="form-group3">
           <input type="text" class="comment-section" placeholder="Write a Comment....."/>
           <input type="hidden" name="reviewId" value="{{this.id}}">

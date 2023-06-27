@@ -7,27 +7,40 @@
  <div id="game-title3">
         <div id="game-title1" aria-disabled="true" disabled>
         <a class="statcard-desc" href="/" id="web-title">Comments</a>
-          <div class="dropdown2">
-            <a class="btn btn-outline-info mr-sm-2 logout-button1" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Logout</a>
-          </div>
-          <div class="dropdown2">
+          <div class="dropdown3">
             <a href="/profile" class="btn btn-outline-info mr-sm-2 logout-button1" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Profile</a>
           </div>
-          <div class="dropdown2">
-            <a href="/feed" class="btn btn-outline-info mr-sm-2 logout-button1" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Feed</a>
+          <div class="dropdown3">
+            <a href="/feed" class="btn btn-outline-info mr-sm-2 logout-button1" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Back To Feed</a>
           </div>
     </div>
 </div>
 
 {{#if ./displayCommentsData.length}}
+  <div class="card" id="game-title">
+     <h3 id="topic-display">{{displayCommentsData.[0].review.topic}}<span style="float: right; margin-right: 10px;">{{displayCommentsData.[0].review.createdAt}}</span></h3>
+    <div class="card" id="game-title5">
+      <img src="/reviewImages/{{displayCommentsData.[0].review.postImage}}" id="review-image"/>
+    </div>
+    
+      <h3 id="description-display" style="margin-top: 20px; margin-bottom: 20px;">{{displayCommentsData.[0].review.description}}</h3>
+
+  </div>
+{{/if}}
+
+
+{{#if ./displayCommentsData.length}}
   {{#each ./displayCommentsData}}
     <div class="card" id="game-title">
       <img src="/images/{{user.profileImage}}" id="blank-profile3" />
-      <p id="review-title5">{{user.username}}</p>
-      <p>{{comment}}</p>
+      <span style="font-size: 25px;">{{user.username}}</span>
+      <hr>
+      <p id="display-comments">{{comment}}</p>
     </div>
 {{/each}}
-
+<a href="#top" class="go-top-button">Go Back to the Top</a>
 {{else}}
 <p>No Comments Yet</p>
 {{/if}}
+
+<script type="text/javascript" src="./js/comments.js"></script>

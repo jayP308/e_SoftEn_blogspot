@@ -1,5 +1,6 @@
 const createPost = document.getElementById('dropdownMenu3');
 const closePost = document.getElementById('submit-button1');
+const revealInfo = document.getElementById('dropdownMenu4');
 
 function chooseProfileImage() {
     document.getElementById('profileImageInput').click();
@@ -68,6 +69,13 @@ function chooseProfileImage() {
     }
   };
   
+revealInfo.addEventListener('click', () => {
+  if(document.getElementById('game-title6').style.display === 'block') {
+    document.getElementById('game-title6').style.display = 'none';
+  } else {
+    document.getElementById('game-title6').style.display = 'block';
+  }
+})
 
 // event listener for when the create post button is click, the section will be displayed
 createPost.addEventListener('click', () => {
@@ -129,6 +137,59 @@ const deleteForms = document.querySelectorAll('.delete-review');
 deleteForms.forEach(form => {
   form.addEventListener('submit', deleteReview);
 });
+
+const deleteButtons = document.querySelectorAll('.delete-button3');
+
+const eachCommentClick = (event) => {
+  event.preventDefault();
+  
+  const commentSection = event.target.parentNode.parentNode.querySelector('.form-group5');
+  
+  if (commentSection.style.display === 'block') {
+    commentSection.style.display = 'none';
+  } else {
+    commentSection.style.display = 'block';
+  }
+};
+
+deleteButtons.forEach(button => {
+  button.addEventListener('click', eachCommentClick);
+});
+
+const commentForms = document.querySelectorAll('.form-group5');
+
+commentForms.forEach(form => {
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const commentInput = form.querySelector('.comment-section1');
+    const comment = commentInput.value.trim();
+    const reviewId = form.querySelector('[name="reviewId"]').value.trim(); // Retrieve the reviewId from the hidden input field
+    
+    if (comment && reviewId) {
+      try {
+        const response = await fetch('/api/users/comments', {
+          method: 'POST',
+          body: JSON.stringify({ comment, reviewId }), // Include the comment and reviewId in the request body
+          headers: { 'Content-type': 'application/json' },
+        });
+
+        if (response.ok) {
+          // Refresh the page to update the comments
+          window.location.replace('/comments/' + reviewId);
+        } else {
+          // Handle the error case
+          console.log('Error:', response.status);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    
+    // Clear the comment input field
+    commentInput.value = '';
+  });
+});
+
 
   document.querySelector('.dropdown1').addEventListener('click', logout);
   document.querySelector('.review-form').addEventListener('submit', reviewForm);

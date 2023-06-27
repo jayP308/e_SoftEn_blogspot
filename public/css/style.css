@@ -51,7 +51,9 @@
 .dropdown1,
 .logout-button1,
 .dropdown2,
-.logout-button2 {
+.logout-button2,
+.dropdown3
+ {
     display: inline;
     color: rgb(24, 160, 65);
     border-color: rgb(24, 160, 65);
@@ -76,6 +78,7 @@
     background-repeat: none;
     background-size: cover;
     background-attachment: fixed;
+    border-color: rgb(24, 160, 65);
 }
 
 #review-style {
@@ -110,6 +113,7 @@
     background-color: transparent;
     background-repeat: none;
     background-size: cover;
+    border-color: rgb(24, 160, 65);
     background-attachment: fixed;
 }
 
@@ -140,7 +144,7 @@
     flex-direction: row;
 }
 
-.form-group3 {
+.form-group3, .form-group5 {
     display: none;
 }
 
@@ -148,7 +152,7 @@
     display: block;
 }
 
-.comment-section {
+.comment-section, .comment-section1  {
     font-size: 25px;
     padding-left: 50px;
     width: 75%;
@@ -375,7 +379,7 @@
     font-family: monospace;
 }
 
-#game-title3 {
+#game-title3, #game-title6 {
     display: block;
     text-align: center;
     font-size: 45px;
@@ -441,7 +445,8 @@
 #topic-display {
     margin-top: 15px;
     margin-left: 15px;
-    font-size: 20px;
+    font-size: 35px;
+    color: rgb(90, 184, 152);
 }
 
 #description-display {
@@ -480,10 +485,13 @@
   #review-image {
     display: block;
     margin: 0 auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
     width: 65%;
     height: 500px; /* Set horizontal margins to auto to center the image */
     max-width: 85%; /* Set the maximum width */
     max-height: 650px; /* Set the maximum height */
+    border-style: double;
   }
 
   hr {
@@ -513,7 +521,7 @@
     padding: 5px;
 }
 
-.delete-button1, .delete-button2 {
+.delete-button1, .delete-button2, .delete-button3 {
     display: block;
     margin: auto;
     margin-left: 15px;
@@ -528,7 +536,8 @@
 }
 
 .delete-button1:hover,
-.delete-button2:hover
+.delete-button2:hover,
+.delete-button3:hover
 {
     display: block;
     margin: auto;
@@ -560,3 +569,6 @@
     padding: 5px;
 }
 
+#display-comments {
+    font-size: 20px;
+}
