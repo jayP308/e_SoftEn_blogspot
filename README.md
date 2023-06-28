@@ -3,8 +3,8 @@
 # Table of Contents
 * [Usage](#usage)
 * [Description](#usage)
-* [Installation](#installation)
-* [Test](#test)
+* [URL](#URL)
+* [Screenshots](#Screenshots)
 * [Contributors](#contributors)
 * [License](#license)
 * [Contacts](#contacts)
@@ -21,11 +21,11 @@ This app includes a landing page where a user will be presented with app logo an
 ## Screenshots
 Homepage 
 
-<img src="./images/main-page.png" />
+<img src="./public/images/main-page.png" />
 
 Profile Page
 
-<img src="./images/profile-page" />
+<img src="./public/images/profile-page.png" />
 
 ## Contributors
 Junnel R. Padilla, UC Berkeley Bootcamp Modules, ChatGPT
