@@ -1,25 +1,16 @@
 const router = require('express').Router();
 const { Users, Reviews, Comments } = require('../models');
-const _ = require('lodash');
 
 router.get('/', async (req, res) => {
-   res.render('homepage', {
-    loggedIn: req.session.loggedIn,
-   });
+   res.render('homepage'); 
 });
 
 router.get('/signup', async (req, res) => {
-  if (req.session.loggedIn) {
-    return res.redirect('/');
-  }
   res.render('signup');
 });
 
 
 router.get('/login', async (req, res) => {
-    if (req.session.loggedIn) {
-      return res.redirect('/');
-    }
     res.render('login');
   });
 
@@ -145,41 +136,6 @@ router.get('/feed', async (req, res) => {
     } catch (err) {
       res.status(500).json({ err });
     }
-  });  
-
-  router.get('/profile/:id', async (req, res) => {
-    try {
-      const userId = req.params.id;
-
-      const userSignupData = await Users.findOne({ where: { userId } });
-      if (!userSignupData) {
-        return res.status(404).json({ message: 'User not found' });
-      }
-      const user = userSignupData.get({ plain: true });
-  
-      const userReviews = await Reviews.findAll({ where: { userId } });
-      const userReviewData = userReviews.map(review => {
-        const reviewData = review.get({ plain: true });
-        const createdAt = new Date(review.createdAt);
-        reviewData.createdAt = createdAt.toLocaleDateString(undefined, {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-        });
-        return reviewData;
-      });
-  
-      console.log(userId)
-  
-      return res.render('profile', {
-        user,
-        loggedIn: req.session.loggedIn,
-        userReviewData,
-      });
-    } catch (error) {
-      return res.status(500).json({ error });
-    }
-  });
-  
+  });    
 
 module.exports = router;
